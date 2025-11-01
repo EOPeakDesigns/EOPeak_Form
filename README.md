@@ -4,7 +4,6 @@
 
 **Enterprise-Grade Contact Form with Advanced Security & Mobile-First Design**
 
-[[Shields.io](https://shields.io/)](LICENSE)
 [![Version](https://img.shields.io/badge/Version-4.6-blue)](CHANGELOG.md)
 [![Author](https://img.shields.io/badge/Author-Eng.%20Eslam%20Osama%20Saad-orange)](https://www.behance.net/EOPeak)
 
@@ -805,6 +804,7 @@ For custom features or modifications:
 © 2025 EOPeak. All Rights Reserved.
 
 </div>
+
 
 
 
