@@ -1,0 +1,447 @@
+/**
+ * Mobile Cross-Platform UI Consistency Fixes
+ * 
+ * Purpose: Ensure pixel-consistent rendering across Android/iOS browsers and WebViews
+ * Scope: Scoped CSS overrides only - no functional changes
+ * Reversibility: Can be disabled by removing this stylesheet reference
+ * 
+ * Author: Senior Web Developer / QA Engineer
+ * Last Updated: 2024
+ */
+
+/* ============================================
+   iOS Safari & WebView Specific Fixes
+   ============================================ */
+
+/* Prevent iOS Safari address bar from affecting layout */
+@supports (-webkit-touch-callout: none) {
+  body {
+    /* Fallback for browsers that don't support 100dvh */
+    min-height: -webkit-fill-available;
+  }
+}
+
+/* Fix iOS Safari keyboard scroll behavior - ensure inputs are visible */
+@media (max-width: 768px) {
+  /* Prevent body from scrolling when keyboard is open */
+  body.keyboard-open {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  /* Ensure form container scrolls independently when keyboard is visible */
+  .form-container {
+    max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 2rem);
+    max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 2rem);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* Smooth iOS scrolling */
+    overscroll-behavior: contain; /* Prevent pull-to-refresh interference */
+  }
+  
+  /* Ensure inputs scroll into view when focused on iOS */
+  .form-input:focus,
+  .form-textarea:focus {
+    scroll-margin-top: 20px; /* Space above input when scrolled into view */
+    scroll-margin-bottom: 20px;
+  }
+}
+
+/* ============================================
+   Safe Area Improvements (Notched Devices)
+   ============================================ */
+
+/* Enhanced safe-area support for notched devices */
+@supports (padding: env(safe-area-inset-top)) {
+  body {
+    /* Additional safe-area padding for extreme notches */
+    padding-top: max(var(--spacing-md), env(safe-area-inset-top));
+    padding-right: max(var(--spacing-md), env(safe-area-inset-right));
+    padding-bottom: max(var(--spacing-md), env(safe-area-inset-bottom), 60px); /* Account for iOS home indicator */
+    padding-left: max(var(--spacing-md), env(safe-area-inset-left));
+  }
+  
+  /* Ensure form container respects safe areas */
+  .form-container {
+    margin-top: max(0px, env(safe-area-inset-top) - var(--spacing-md));
+    margin-bottom: max(0px, env(safe-area-inset-bottom) - var(--spacing-md));
+  }
+  
+  /* Submit button should account for home indicator on iOS */
+  .submit-button {
+    margin-bottom: max(0px, env(safe-area-inset-bottom) - 1rem);
+  }
+}
+
+/* ============================================
+   Touch Target Consistency
+   ============================================ */
+
+/* Ensure all interactive elements meet 44x44px minimum on mobile */
+@media (max-width: 768px) {
+  /* Form inputs already have min-height: 44px, but ensure consistency */
+  .form-input,
+  .form-textarea {
+    min-height: 44px; /* WCAG 2.1 AAA minimum */
+    -webkit-appearance: none; /* Remove iOS input styling inconsistencies */
+    appearance: none;
+    border-radius: var(--border-radius-sm);
+  }
+  
+  /* Buttons - ensure minimum touch target */
+  .submit-button,
+  .social-button,
+  .carousel-nav-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  
+  /* Improve touch feedback on iOS */
+  .social-button:active,
+  .submit-button:active,
+  .carousel-nav-button:active {
+    opacity: 0.85;
+    transform: scale(0.98);
+  }
+}
+
+/* ============================================
+   Font Rendering Consistency
+   ============================================ */
+
+/* Prevent FOUT (Flash of Unstyled Text) and FOIT (Flash of Invisible Text) */
+@supports (font-display: swap) {
+  /* Font loading handled via Google Fonts API with display=swap */
+  /* Additional fallback font stack for consistent rendering */
+  body {
+    font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    /* Prevent font size adjustment on iOS */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+}
+
+/* Ensure consistent font rendering across browsers */
+@media (max-width: 768px) {
+  body {
+    /* Prevent iOS font size adjustment */
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    /* Optimize font rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-smoothing: antialiased;
+  }
+  
+  /* Consistent text rendering for headings */
+  h2 {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+}
+
+/* ============================================
+   WebKit-Specific Fixes
+   ============================================ */
+
+/* Fix backdrop-filter performance on iOS */
+@supports (-webkit-backdrop-filter: blur(1px)) {
+  .form-container,
+  .form-input,
+  .form-textarea,
+  .social-button {
+    /* Hardware acceleration for better performance */
+    will-change: transform, opacity;
+    transform: translateZ(0); /* Force GPU acceleration */
+  }
+}
+
+/* Fix iOS Safari double-tap zoom on inputs */
+@media (max-width: 768px) {
+  input[type="text"],
+  input[type="tel"],
+  input[type="email"],
+  textarea {
+    /* Prevent iOS double-tap zoom (font-size >= 16px already set) */
+    font-size: clamp(16px, 4vw, 1rem) !important;
+    /* Additional iOS-specific fixes */
+    -webkit-user-select: text;
+    user-select: text;
+  }
+}
+
+/* Fix WebKit autofill styling inconsistencies */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  /* Maintain glass effect with autofill */
+  -webkit-box-shadow: 0 0 0 30px rgba(255, 255, 255, 0.7) inset !important;
+  -webkit-text-fill-color: var(--text-primary) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* ============================================
+   Landscape Orientation Improvements
+   ============================================ */
+
+/* Enhanced landscape support for small screens */
+@media (orientation: landscape) and (max-height: 600px) {
+  body {
+    /* Ensure safe-area padding in landscape */
+    padding-top: max(var(--spacing-sm), env(safe-area-inset-top));
+    padding-bottom: max(var(--spacing-sm), env(safe-area-inset-bottom));
+  }
+  
+  .form-container {
+    /* Reduce padding in landscape to maximize content area */
+    padding: var(--spacing-md) var(--spacing-lg);
+    max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 1rem);
+    max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 1rem);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Reduce heading size in landscape */
+  h2 {
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  /* Optimize textarea for landscape */
+  .form-textarea {
+    min-height: 60px;
+    max-height: 150px;
+  }
+  
+  /* Compact social buttons in landscape */
+  .social-buttons-container {
+    margin-bottom: var(--spacing-md);
+  }
+}
+
+/* ============================================
+   Android WebView & Browser Fixes
+   ============================================ */
+
+/* Fix Android Chrome address bar behavior */
+@media (max-width: 768px) {
+  body {
+    /* Prevent Android Chrome from resizing on scroll */
+    min-height: 100vh;
+    min-height: 100dvh;
+    /* Fallback for older Android browsers */
+    min-height: -webkit-fill-available;
+  }
+}
+
+/* Fix Android touch highlight consistency */
+@media (max-width: 768px) {
+  /* Ensure consistent tap highlight across Android browsers */
+  .social-button,
+  .submit-button,
+  .carousel-nav-button {
+    -webkit-tap-highlight-color: rgba(5, 102, 8, 0.2);
+    tap-highlight-color: rgba(5, 102, 8, 0.2);
+  }
+  
+  /* Remove default Android focus outline and replace with custom */
+  .form-input:focus,
+  .form-textarea:focus {
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Fix Samsung Internet specific issues */
+@supports (-webkit-appearance: none) {
+  .form-input,
+  .form-textarea {
+    /* Remove Samsung Internet input styling */
+    -webkit-appearance: none;
+    appearance: none;
+  }
+}
+
+/* ============================================
+   High DPI / Retina Display Optimizations
+   ============================================ */
+
+/* Enhanced high DPI support for mobile */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  @media (max-width: 768px) {
+    /* Ensure crisp rendering on retina displays */
+    .form-container {
+      /* Enhance shadows for high DPI */
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.12),
+        0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+    
+    /* Crisp borders on high DPI */
+    .form-input,
+    .form-textarea {
+      border-width: 1.5px; /* Half pixel on retina = 1px visual */
+    }
+  }
+}
+
+/* ============================================
+   Accessibility Font Scaling
+   ============================================ */
+
+/* Ensure form remains usable with large font scaling */
+@media (max-width: 768px) {
+  /* Prevent layout breakage with accessibility font scaling */
+  .form-container {
+    /* Allow container to grow with font scaling */
+    min-width: 0;
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  /* Ensure inputs scale properly */
+  .form-input,
+  .form-textarea {
+    /* Prevent inputs from overflowing container */
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Ensure headings scale appropriately */
+  h2 {
+    /* Prevent heading overflow */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+}
+
+/* ============================================
+   Fixed Position Elements (if any)
+   ============================================ */
+
+/* Future-proofing for fixed elements */
+@media (max-width: 768px) {
+  /* If fixed navigation is added later, ensure safe-area support */
+  [class*="fixed"] {
+    top: env(safe-area-inset-top);
+    bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* ============================================
+   Scroll Behavior Consistency
+   ============================================ */
+
+/* Consistent scroll behavior across platforms */
+@media (max-width: 768px) {
+  html {
+    /* Smooth scrolling (respects prefers-reduced-motion) */
+    scroll-behavior: smooth;
+  }
+  
+  /* Prevent overscroll effects that interfere with form */
+  body {
+    overscroll-behavior-y: contain;
+    overscroll-behavior-x: none;
+  }
+  
+  /* Smooth scrolling for form container */
+  .form-container {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ============================================
+   Input Focus Scroll Behavior (iOS Specific)
+   ============================================ */
+
+/* Ensure inputs scroll into view on iOS without jump */
+@media (max-width: 768px) {
+  /* Smooth scroll to focused input */
+  .form-input:focus,
+  .form-textarea:focus {
+    /* Padding to ensure input isn't at viewport edge */
+    scroll-margin: 80px 0;
+    /* Prevent iOS from zooming */
+    font-size: 16px !important;
+  }
+}
+
+/* ============================================
+   Print Styles (Mobile Considerations)
+   ============================================ */
+
+@media print {
+  /* Ensure form prints correctly from mobile browsers */
+  body {
+    background: white;
+    padding: 0;
+  }
+  
+  .form-container {
+    background: white;
+    box-shadow: none;
+    border: 1px solid #ccc;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  
+  /* Hide non-essential elements when printing from mobile */
+  .social-buttons-container,
+  .submit-button {
+    display: none;
+  }
+}
+
+/* ============================================
+   Reduced Motion Support (Enhanced)
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  /* Ensure transforms don't cause motion sensitivity */
+  @media (max-width: 768px) {
+    .form-input:focus,
+    .form-textarea:focus {
+      transform: none !important;
+    }
+    
+    .social-button:active,
+    .submit-button:active {
+      transform: none !important;
+    }
+  }
+}
+
+/* ============================================
+   Very Small Screens (< 360px)
+   ============================================ */
+
+/* Additional fixes for very small devices */
+@media (max-width: 359px) {
+  body {
+    /* Minimal padding on tiny screens */
+    padding: var(--spacing-xs);
+    padding-top: max(var(--spacing-xs), env(safe-area-inset-top));
+    padding-bottom: max(var(--spacing-xs), env(safe-area-inset-bottom));
+  }
+  
+  .form-container {
+    padding: var(--spacing-md);
+    max-width: calc(100vw - 2 * var(--spacing-xs));
+  }
+  
+  /* Ensure inputs remain usable */
+  .form-input,
+  .form-textarea {
+    font-size: 16px !important; /* Critical for iOS zoom prevention */
+    padding: var(--spacing-sm);
+  }
+}
+

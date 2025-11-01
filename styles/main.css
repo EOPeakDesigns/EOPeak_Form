@@ -1,0 +1,1940 @@
+/* ============================================
+   Professional Contact Form - Stylesheet
+   Author: Eng. Eslam Osama Saad (EOPeak)
+   ============================================ */
+
+/* ===== CSS Variables for Easy Theming ===== */
+:root {
+  --primary-color: #056608;
+  --primary-hover: #045006;
+  --primary-light: #9ccc65;
+  --accent-color: #90caf9;
+  --text-primary: #333;
+  --text-secondary: #666;
+  --text-success: #2e7d32;
+  --text-error: #c62828;
+  --bg-gradient-start: #e3f2fd;
+  --bg-gradient-end: #bbdefb;
+  --border-color: #90caf9;
+  --border-focus: #056608;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 15px 35px rgba(0, 0, 0, 0.15);
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  --border-radius-sm: 8px;
+  --border-radius-md: 10px;
+  --border-radius-lg: 20px;
+  
+  /* Responsive spacing variables */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 0.75rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 2.5rem;
+  
+  /* Responsive typography base sizes */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  
+  /* Touch target minimum size (WCAG recommendation: 44x44px) */
+  --touch-target-min: 44px;
+  
+  /* Glass morphism (glass effect) variables */
+  /* Reduced opacity for maximum background visibility while maintaining readability */
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-bg-mobile: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.25);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --glass-shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.15);
+  --glass-blur: 12px;
+  --glass-blur-mobile: 10px;
+  /* Realistic glass effect variables */
+  --glass-highlight: rgba(255, 255, 255, 0.4);
+  --glass-edge-light: rgba(255, 255, 255, 0.5);
+  --glass-refraction: rgba(255, 255, 255, 0.15);
+  /* Brand colors */
+  --brand-pinterest: #bd081c;
+  --brand-upwork: #06b155;
+  --brand-facebook: #1877f2;
+  --brand-instagram: #e1306c;
+  --brand-kafiil: #00a79d;
+  --brand-behance-purple: #6f42f5;
+}
+
+/* ===== Base Styles ===== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* Responsive background images with gradient fallback */
+  /* Mobile background (< 425px): Smart Phone Background */
+  /* Path is relative to CSS file location (styles/) - go up one level to assets/ */
+  background-image: 
+    url('../assets/Smart_Phone_Background.png?v=4.6'),
+    linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  /* Use scroll attachment on mobile for better performance */
+  background-attachment: scroll;
+  /* Fallback: Gradient displays while image loads or if image fails */
+  background-color: var(--bg-gradient-end);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height for mobile browsers */
+  margin: 0;
+  padding: var(--spacing-md);
+  line-height: 1.6;
+  color: var(--text-primary);
+  /* Safe area support for notched devices */
+  padding-top: max(var(--spacing-md), env(safe-area-inset-top));
+  padding-right: max(var(--spacing-md), env(safe-area-inset-right));
+  padding-bottom: max(var(--spacing-md), env(safe-area-inset-bottom));
+  padding-left: max(var(--spacing-md), env(safe-area-inset-left));
+}
+
+/* Desktop/Tablet background (>= 425px): Full Background */
+@media (min-width: 425px) {
+  body {
+  /* Path is relative to CSS file location (styles/) - go up one level to assets/ */
+  background-image: 
+    url('../assets/full_background.png?v=4.6'),
+    linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    /* Fixed attachment for desktop creates parallax effect */
+    background-attachment: fixed;
+  }
+}
+
+/* ===== Form Container ===== */
+.form-container {
+  /* Realistic glass morphism effect - true glass appearance */
+  background: var(--glass-bg-mobile);
+  backdrop-filter: blur(var(--glass-blur-mobile)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-mobile)) saturate(180%);
+  /* Layered glass effect with gradient overlay for depth */
+  background-image: 
+    linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    linear-gradient(225deg, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+  /* Border for glass effect depth with subtle gradient */
+  border: 1px solid var(--glass-border);
+  border-image: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1)) 1;
+  /* Enhanced shadow for glass depth with multiple layers */
+  box-shadow: 
+    var(--glass-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+  padding: var(--spacing-xl);
+  border-radius: var(--border-radius-lg);
+  width: 100%;
+  max-width: 450px;
+  text-align: center;
+  animation: fadeInUp 0.5s ease-out, glassShimmer 3s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+  /* Ensure container fits within viewport */
+  margin: auto;
+  /* Prevent horizontal scrolling on very small screens */
+  box-sizing: border-box;
+  /* Improve readability with glass effect */
+  isolation: isolate;
+  /* Smooth transitions for glass-like feel */
+  transition: box-shadow var(--transition-normal), transform var(--transition-normal);
+}
+
+/* Glass light reflection overlay */
+.form-container::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    135deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 70%
+  );
+  animation: glassReflection 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Enhanced glass effect for larger screens */
+@media (min-width: 425px) {
+  .form-container {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    /* Enhanced glass layering for desktop */
+    background-image: 
+      linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, transparent 50%),
+      linear-gradient(225deg, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+  }
+  
+  /* Subtle hover effect - glass reflection on interaction */
+  .form-container:hover {
+    box-shadow: 
+      var(--glass-shadow-hover),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+  }
+}
+
+/* Fallback for browsers that don't support backdrop-filter */
+@supports not (backdrop-filter: blur(10px)) {
+  .form-container {
+    /* Semi-transparent white - slightly higher opacity since no blur effect available */
+    /* Reduced opacity to match glass effect intent while ensuring readability */
+    background: rgba(255, 255, 255, 0.75);
+    /* Add subtle gradient overlay for depth */
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.7));
+  }
+  
+  .form-input,
+  .form-textarea {
+    /* Ensure readability without backdrop-filter - higher opacity for clarity */
+    background-color: rgba(255, 255, 255, 0.85);
+  }
+  
+  .form-input:focus,
+  .form-textarea:focus {
+    background-color: rgba(255, 255, 255, 0.95);
+  }
+}
+
+.form-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+  z-index: 2;
+  /* Glass-like top edge highlight */
+  box-shadow: 0 2px 4px rgba(5, 102, 8, 0.2);
+}
+
+/* ===== Typography ===== */
+h2 {
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  margin: 0 0 2rem 0;
+  font-weight: 600;
+  line-height: 1.5;
+  position: relative;
+  padding-bottom: 1rem;
+  text-align: center;
+  /* Professional heading with gradient text effect */
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: fadeInText 0.6s ease-out;
+  transition: all var(--transition-normal);
+}
+
+/* Professional heading with gradient accent line */
+h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+  border-radius: 2px;
+  animation: expandLine 0.8s ease-out 0.3s both;
+}
+
+/* Honeypot field - visually hidden but present in DOM */
+.hp-field {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Interactive heading hover effect */
+h2:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+/* Fallback for browsers that don't support background-clip */
+@supports not (-webkit-background-clip: text) {
+  h2 {
+    color: var(--primary-color);
+    background: none;
+    -webkit-text-fill-color: initial;
+  }
+}
+
+/* ===== Social Media & Freelancing Platform Buttons ===== */
+.social-buttons-container {
+  margin-bottom: var(--spacing-xl);
+  text-align: center;
+  animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+.social-buttons-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: clamp(0.75rem, 2vw, 1rem);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Circular glass-effect social buttons */
+.social-button {
+  /* Circular shape */
+  width: clamp(44px, 5vw, 52px);
+  height: clamp(44px, 5vw, 52px);
+  min-width: var(--touch-target-min);
+  min-height: var(--touch-target-min);
+  border-radius: 50%;
+  /* Glass morphism effect matching form container */
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px) saturate(150%);
+  -webkit-backdrop-filter: blur(8px) saturate(150%);
+  /* Layered glass effect */
+  background-image: 
+    linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
+    linear-gradient(225deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  /* Glass border */
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  /* Glass shadows */
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+  /* Layout */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: var(--text-primary);
+  /* Smooth transitions */
+  transition: all var(--transition-normal), backdrop-filter var(--transition-normal);
+  /* Accessibility */
+  position: relative;
+  overflow: hidden;
+  /* Prevent text selection */
+  user-select: none;
+  -webkit-tap-highlight-color: rgba(5, 102, 8, 0.2);
+  touch-action: manipulation;
+  /* Ensure buttons are clickable above glass overlay */
+  z-index: 2;
+}
+
+/* Icon styling */
+.social-icon {
+  width: clamp(20px, 3vw, 24px);
+  height: clamp(20px, 3vw, 24px);
+  fill: var(--text-primary);
+  transition: transform var(--transition-fast), fill var(--transition-normal);
+  pointer-events: none;
+}
+
+/* Default Behance tile color matches Pinterest red */
+.social-button--behance .social-icon {
+  color: var(--brand-pinterest);
+}
+
+/* Khamsat icon special styling for Arabic text (خمسات) */
+.social-icon--khamsat {
+  width: clamp(36px, 5.5vw, 44px);
+  height: clamp(18px, 3vw, 22px);
+  /* Enhanced Arabic text rendering with proper font stack */
+  font-family: 'Cairo', 'Segoe UI', 'Arial', 'Tahoma', 'Arabic UI Text', 'Noto Sans Arabic', sans-serif;
+}
+
+/* Platform-specific colors on hover */
+.social-button--whatsapp:hover {
+  background: rgba(37, 211, 102, 0.2);
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  border-color: rgba(37, 211, 102, 0.4);
+  box-shadow: 
+    0 6px 20px rgba(37, 211, 102, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px) scale(1.05);
+}
+
+.social-button--whatsapp:hover .social-icon {
+  fill: #25d366;
+  transform: scale(1.1);
+}
+
+.social-button--khamsat:hover {
+  background: rgba(255, 193, 7, 0.2);
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  border-color: rgba(255, 193, 7, 0.4);
+  box-shadow: 
+    0 6px 20px rgba(255, 193, 7, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px) scale(1.05);
+}
+
+.social-button--khamsat:hover .social-icon {
+  fill: #ffc107;
+  transform: scale(1.1);
+}
+
+.social-button--behance:hover {
+  background: rgba(111, 66, 245, 0.2); /* Behance purple glow */
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  border-color: rgba(111, 66, 245, 0.45);
+  box-shadow:
+    0 6px 20px rgba(111, 66, 245, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px) scale(1.05);
+}
+
+.social-button--behance:hover .social-icon {
+  color: var(--brand-behance-purple); /* Tile becomes purple on hover */
+  fill: #FFFFFF; /* glyph remains white */
+  transform: scale(1.1);
+}
+
+/* Behance tile sizing */
+.social-icon--behance-tile {
+  width: clamp(22px, 3.5vw, 26px);
+  height: clamp(22px, 3.5vw, 26px);
+}
+
+.social-button--upwork:hover {
+  background: rgba(6, 177, 85, 0.2);
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  border-color: rgba(6, 177, 85, 0.4);
+  box-shadow: 
+    0 6px 20px rgba(6, 177, 85, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px) scale(1.05);
+}
+
+.social-button--upwork:hover .social-icon {
+  fill: #06b155;
+  transform: scale(1.1);
+}
+
+.social-button--pinterest:hover {
+  background: rgba(189, 8, 28, 0.2);
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  border-color: rgba(189, 8, 28, 0.4);
+  box-shadow: 
+    0 6px 20px rgba(189, 8, 28, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px) scale(1.05);
+}
+
+.social-button--pinterest:hover .social-icon {
+  fill: #bd081c;
+  transform: scale(1.1);
+}
+
+/* New platforms hover */
+.social-button--facebook:hover {
+  background: rgba(24, 119, 242, 0.2);
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  border-color: rgba(24, 119, 242, 0.4);
+  box-shadow:
+    0 6px 20px rgba(24, 119, 242, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px) scale(1.05);
+}
+.social-button--facebook:hover .social-icon {
+  fill: var(--brand-facebook);
+  transform: scale(1.1);
+}
+
+.social-button--instagram:hover {
+  background: rgba(225, 48, 108, 0.18);
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  border-color: rgba(225, 48, 108, 0.4);
+  box-shadow:
+    0 6px 20px rgba(225, 48, 108, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px) scale(1.05);
+}
+.social-button--instagram:hover .social-icon {
+  fill: var(--brand-instagram);
+  transform: scale(1.1);
+}
+
+/* Kafiil uses tile (currentColor) similar to Behance */
+.social-button--kafiil:hover {
+  background: rgba(0, 167, 157, 0.18);
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  border-color: rgba(0, 167, 157, 0.4);
+  box-shadow:
+    0 6px 20px rgba(0, 167, 157, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px) scale(1.05);
+}
+.social-button--kafiil:hover .social-icon {
+  color: var(--brand-kafiil);
+  fill: #FFFFFF; /* keep glyph white inside tile */
+  transform: scale(1.1);
+}
+
+/* Active state */
+.social-button:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.1),
+    inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Focus state for accessibility */
+.social-button:focus {
+  outline: none;
+  /* Remove green focus ring; keep subtle glass glow */
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Optional accessible focus for keyboard only */
+.social-button:focus-visible {
+  outline: none;
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.12),
+    0 0 0 2px rgba(0, 0, 0, 0.12);
+}
+
+/* Disabled state for placeholder buttons */
+.social-button[href="#"] {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.social-button[href="#"]:hover {
+  transform: none;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px) saturate(150%);
+  -webkit-backdrop-filter: blur(8px) saturate(150%);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.social-button[href="#"]:hover .social-icon {
+  fill: var(--text-primary);
+  transform: none;
+}
+
+/* Glass reflection animation on buttons */
+.social-button::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    135deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 70%
+  );
+  animation: glassReflectionButton 3s ease-in-out infinite;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.social-button:hover::after {
+  opacity: 1;
+}
+
+@keyframes glassReflectionButton {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.4;
+  }
+  50% {
+    transform: translate(-40%, -40%) rotate(45deg);
+    opacity: 0.3;
+  }
+  80% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(90deg);
+    opacity: 0;
+  }
+}
+
+/* Responsive adjustments for social buttons */
+@media (max-width: 359px) {
+  .social-buttons-container {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .social-buttons-wrapper {
+    gap: var(--spacing-sm);
+  }
+
+  .social-button {
+    width: 42px;
+    height: 42px;
+  }
+
+  .social-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (min-width: 769px) {
+  .social-button {
+    width: 56px;
+    height: 56px;
+  }
+
+  .social-icon {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+/* Disable hover effects on tablets/phones (<= 768px) and touch-only devices */
+@media (max-width: 768px) {
+  /* Remove mobile tap highlight overlay that appeared green */
+  .social-button {
+    -webkit-tap-highlight-color: transparent !important;
+  }
+  
+  /* Critical fix: Prevent ANY hover state on touch devices using :not() selector */
+  /* This ensures hover effects NEVER appear, even when returning to page */
+  .social-button:not(:active):not(:focus) {
+    /* Force reset to base state - prevents persistent hover after navigation */
+    background: rgba(255, 255, 255, 0.6) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    box-shadow:
+      0 4px 16px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.1) !important;
+    transform: none !important;
+  }
+  
+  /* Neutralize per-platform hover visuals with stronger specificity */
+  .social-button--whatsapp:hover,
+  .social-button--whatsapp:focus,
+  .social-button--khamsat:hover,
+  .social-button--khamsat:focus,
+  .social-button--behance:hover,
+  .social-button--behance:focus,
+  .social-button--upwork:hover,
+  .social-button--upwork:focus,
+  .social-button--pinterest:hover,
+  .social-button--pinterest:focus,
+  .social-button--facebook:hover,
+  .social-button--facebook:focus,
+  .social-button--instagram:hover,
+  .social-button--instagram:focus,
+  .social-button--kafiil:hover,
+  .social-button--kafiil:focus {
+    /* Revert to base glass styles - stronger override */
+    background: rgba(255, 255, 255, 0.6) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    box-shadow:
+      0 4px 16px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.1) !important;
+    transform: none !important;
+  }
+
+  /* Keep icons in their non-hover colors with stronger override */
+  .social-button--whatsapp:hover .social-icon,
+  .social-button--whatsapp:focus .social-icon,
+  .social-button--upwork:hover .social-icon,
+  .social-button--upwork:focus .social-icon,
+  .social-button--pinterest:hover .social-icon,
+  .social-button--pinterest:focus .social-icon,
+  .social-button--khamsat:hover .social-icon,
+  .social-button--khamsat:focus .social-icon,
+  .social-button--facebook:hover .social-icon,
+  .social-button--facebook:focus .social-icon,
+  .social-button--instagram:hover .social-icon,
+  .social-button--instagram:focus .social-icon,
+  .social-button--kafiil:hover .social-icon,
+  .social-button--kafiil:focus .social-icon {
+    fill: var(--text-primary) !important;
+    color: inherit !important;
+    transform: none !important;
+  }
+
+  /* Behance tile stays in its default red tile with white glyph */
+  .social-button--behance:hover .social-icon,
+  .social-button--behance:focus .social-icon {
+    color: var(--brand-pinterest) !important;
+    transform: none !important;
+  }
+
+  /* Prevent reflective overlay from appearing on hover */
+  .social-button:hover::after,
+  .social-button:focus::after {
+    opacity: 0 !important;
+  }
+
+  /* Also neutralize active press effects and animations */
+  .social-button:active,
+  .social-button--whatsapp:active,
+  .social-button--khamsat:active,
+  .social-button--behance:active,
+  .social-button--upwork:active,
+  .social-button--pinterest:active,
+  .social-button--facebook:active,
+  .social-button--instagram:active,
+  .social-button--kafiil:active {
+    transform: none !important;
+    box-shadow:
+      0 4px 16px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.1) !important;
+  }
+
+  /* Ensure pressed/focused state uses neutral colors (no brand overlays) */
+  .social-button--whatsapp:active,
+  .social-button--khamsat:active,
+  .social-button--behance:active,
+  .social-button--upwork:active,
+  .social-button--pinterest:active,
+  .social-button--facebook:active,
+  .social-button--instagram:active,
+  .social-button--kafiil:active,
+  .social-button--whatsapp:focus,
+  .social-button--khamsat:focus,
+  .social-button--behance:focus,
+  .social-button--upwork:focus,
+  .social-button--pinterest:focus,
+  .social-button--facebook:focus,
+  .social-button--instagram:focus,
+  .social-button--kafiil:focus {
+    outline: none !important;
+    background: rgba(255, 255, 255, 0.6) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+  }
+  
+  /* Additional fix: Remove focus immediately after interaction ends */
+  .social-button:not(:active):not(:focus) {
+    /* Ensure no persistent visual states */
+    background: rgba(255, 255, 255, 0.6) !important;
+  }
+
+  /* Eliminate transitions to avoid subtle motion on touch */
+  .social-button,
+  .social-icon {
+    transition: none !important;
+  }
+}
+
+/* Additional safeguard: Disable hover effects on touch-only devices regardless of width */
+@media (hover: none) and (pointer: coarse) {
+  .social-button:hover,
+  .social-button:focus {
+    /* No hover effects on touch-only devices */
+    background: rgba(255, 255, 255, 0.6) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    transform: none !important;
+  }
+  
+  .social-button:hover .social-icon,
+  .social-button:focus .social-icon {
+    fill: var(--text-primary) !important;
+    transform: none !important;
+  }
+  
+  .social-button--behance:hover .social-icon,
+  .social-button--behance:focus .social-icon {
+    color: var(--brand-pinterest) !important;
+  }
+}
+
+/* Disable glass animations for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .social-button::after {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+
+  .social-button:hover {
+    transform: translateY(-1px) !important;
+  }
+
+  .social-button:active {
+    transform: scale(0.99) !important;
+  }
+}
+
+/* ===== Social Carousel Styles ===== */
+/* Carousel Navigation Buttons */
+.carousel-nav-button {
+  /* Glass morphism design matching form container */
+  background: var(--glass-bg-mobile);
+  backdrop-filter: blur(var(--glass-blur-mobile)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-mobile)) saturate(180%);
+  /* Layered glass effect */
+  background-image: 
+    linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
+    linear-gradient(225deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  /* Glass border */
+  border: 1.5px solid var(--glass-border);
+  /* Glass shadows */
+  box-shadow: 
+    var(--glass-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+  /* Circular shape */
+  width: clamp(40px, 4.5vw, 48px);
+  height: clamp(40px, 4.5vw, 48px);
+  min-width: var(--touch-target-min);
+  min-height: var(--touch-target-min);
+  border-radius: 50%;
+  /* Layout */
+  display: none; /* Hidden by default, shown when carousel is active */
+  align-items: center;
+  justify-content: center;
+  /* Positioning */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  /* Styling */
+  cursor: pointer;
+  color: var(--primary-color);
+  transition: all var(--transition-normal), backdrop-filter var(--transition-normal);
+  /* Accessibility */
+  -webkit-tap-highlight-color: rgba(5, 102, 8, 0.2);
+  touch-action: manipulation;
+  user-select: none;
+  /* Prevent button text selection */
+  outline: none;
+}
+
+/* Previous button (left side) */
+.carousel-nav-button--prev {
+  left: clamp(-0.75rem, -2.5vw, -1.25rem);
+}
+
+/* Next button (right side) */
+.carousel-nav-button--next {
+  right: clamp(-0.75rem, -2.5vw, -1.25rem);
+}
+
+/* Ensure navigation buttons are visible and properly positioned */
+/* Add padding to container when carousel is active to accommodate nav buttons */
+.social-carousel-active.social-buttons-container {
+  padding-left: clamp(2rem, 5vw, 3rem); /* Space for left button */
+  padding-right: clamp(2rem, 5vw, 3rem); /* Space for right button */
+}
+
+/* Adjust container padding on very small screens */
+@media (max-width: 359px) {
+  .social-carousel-active.social-buttons-container {
+    padding-left: clamp(1.5rem, 4vw, 2rem);
+    padding-right: clamp(1.5rem, 4vw, 2rem);
+  }
+  
+  .carousel-nav-button {
+    width: 38px;
+    height: 38px;
+  }
+  
+  .carousel-nav-icon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* Navigation icon styling */
+.carousel-nav-icon {
+  width: clamp(18px, 2.5vw, 22px);
+  height: clamp(18px, 2.5vw, 22px);
+  stroke: var(--primary-color);
+  transition: transform var(--transition-fast), stroke var(--transition-normal);
+  pointer-events: none;
+}
+
+/* Hover state - enhanced glass effect with primary color accent */
+/* Only apply hover effects when hover is actually available (not touch devices) */
+@media (hover: hover) {
+  .carousel-nav-button:hover:not(:disabled) {
+    background: rgba(5, 102, 8, 0.15);
+    backdrop-filter: blur(var(--glass-blur-mobile)) saturate(200%);
+    -webkit-backdrop-filter: blur(var(--glass-blur-mobile)) saturate(200%);
+    border-color: rgba(5, 102, 8, 0.4);
+    box-shadow: 
+      0 6px 20px rgba(5, 102, 8, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.15);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .carousel-nav-button:hover:not(:disabled) .carousel-nav-icon {
+    stroke: var(--primary-hover);
+    transform: scale(1.15);
+  }
+}
+
+/* Active/pressed state - no green color, neutral feedback only */
+.carousel-nav-button:active:not(:disabled) {
+  transform: translateY(-50%) scale(0.95);
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.1),
+    inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  /* Ensure no green background or border on active/press */
+  background: var(--glass-bg-mobile);
+  border-color: var(--glass-border);
+}
+
+.carousel-nav-button:active:not(:disabled) .carousel-nav-icon {
+  /* Ensure icon stays original color, no green */
+  stroke: var(--primary-color);
+  transform: scale(0.95);
+}
+
+/* Remove active state immediately after click - prevent persistent UI effects */
+.carousel-nav-button:not(:focus):not(:hover):not(:active) {
+  /* Reset to default state when not interacted with */
+  transform: translateY(-50%);
+  background: var(--glass-bg-mobile);
+  border-color: var(--glass-border);
+  box-shadow: 
+    var(--glass-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.carousel-nav-button:not(:focus):not(:hover):not(:active) .carousel-nav-icon {
+  stroke: var(--primary-color);
+  transform: none;
+}
+
+/* Focus state for accessibility - only show for keyboard navigation */
+.carousel-nav-button:focus:not(:active) {
+  outline: none;
+  /* No visual change on mouse/touch click focus - prevents persistent green state */
+}
+
+.carousel-nav-button:focus-visible {
+  outline: none;
+  /* Only show focus ring for keyboard navigation, not mouse/touch clicks */
+  /* Use neutral color instead of green for better UX on touch devices */
+  box-shadow: 
+    var(--glass-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.12),
+    0 0 0 3px rgba(0, 0, 0, 0.15);
+}
+
+/* Ensure no persistent focus state after click - no green */
+.carousel-nav-button:focus:active {
+  outline: none;
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.1),
+    inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  /* No green background or border */
+  background: var(--glass-bg-mobile);
+  border-color: var(--glass-border);
+}
+
+.carousel-nav-button:focus:active .carousel-nav-icon {
+  /* No green stroke on active focus */
+  stroke: var(--primary-color);
+}
+
+/* Disabled state */
+.carousel-nav-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Enhanced glass effect for larger screens */
+@media (min-width: 425px) {
+  .carousel-nav-button {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    /* Enhanced glass layering for desktop */
+    background-image: 
+      linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, transparent 50%),
+      linear-gradient(225deg, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+  }
+  
+  /* Only apply hover effects when hover is available */
+  @media (hover: hover) {
+    .carousel-nav-button:hover:not(:disabled) {
+      backdrop-filter: blur(var(--glass-blur)) saturate(200%);
+      -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(200%);
+    }
+  }
+}
+
+/* Touch device optimizations - no hover effects, no green colors */
+@media (max-width: 768px) {
+  .carousel-nav-button {
+    -webkit-tap-highlight-color: transparent !important;
+  }
+  
+  /* Prevent any hover effects on touch devices */
+  .carousel-nav-button:hover {
+    background: var(--glass-bg-mobile) !important;
+    backdrop-filter: blur(var(--glass-blur-mobile)) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-mobile)) saturate(180%) !important;
+    border-color: var(--glass-border) !important;
+    box-shadow: 
+      var(--glass-shadow),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.1) !important;
+    transform: translateY(-50%) !important;
+  }
+  
+  .carousel-nav-button:hover .carousel-nav-icon {
+    stroke: var(--primary-color) !important;
+    transform: none !important;
+  }
+  
+  /* Active state - no green, neutral feedback only */
+  .carousel-nav-button:active {
+    transform: translateY(-50%) scale(0.98);
+    background: var(--glass-bg-mobile) !important;
+    border-color: var(--glass-border) !important;
+  }
+  
+  .carousel-nav-button:active .carousel-nav-icon {
+    stroke: var(--primary-color) !important;
+  }
+  
+  /* Remove active state immediately after release on touch devices */
+  .carousel-nav-button:not(:active):not(:focus) {
+    transform: translateY(-50%) !important;
+    background: var(--glass-bg-mobile) !important;
+    border-color: var(--glass-border) !important;
+    box-shadow: 
+      var(--glass-shadow),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  .carousel-nav-button:not(:active):not(:focus) .carousel-nav-icon {
+    stroke: var(--primary-color) !important;
+    transform: none !important;
+  }
+  
+  .carousel-nav-button,
+  .carousel-nav-icon {
+    transition: none !important;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .carousel-nav-button {
+    transition: opacity var(--transition-fast) !important;
+  }
+  
+  .carousel-nav-button:hover {
+    transform: translateY(-50%) !important;
+    /* No green colors */
+    background: var(--glass-bg-mobile) !important;
+    border-color: var(--glass-border) !important;
+  }
+  
+  .carousel-nav-button:active {
+    transform: translateY(-50%) scale(0.98) !important;
+    /* No green colors */
+    background: var(--glass-bg-mobile) !important;
+    border-color: var(--glass-border) !important;
+  }
+  
+  .carousel-nav-icon {
+    transition: none !important;
+    stroke: var(--primary-color) !important;
+  }
+}
+
+/* Carousel mode: When buttons don't fit horizontally */
+.social-carousel-active {
+  position: relative; /* Enable absolute positioning for nav buttons */
+}
+
+.social-carousel-active .social-buttons-wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  /* Gradient fade masks on edges for smooth visual transition */
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0, 0, 0, 1) 8%,
+    rgba(0, 0, 0, 1) 92%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0, 0, 0, 1) 8%,
+    rgba(0, 0, 0, 1) 92%,
+    transparent 100%
+  );
+  mask-size: 100% 100%;
+  -webkit-mask-size: 100% 100%;
+  mask-position: center;
+  -webkit-mask-position: center;
+}
+
+/* Carousel track - contains multiple sets of buttons for seamless loop */
+.social-carousel-track {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 2vw, 1rem); /* Gap between button sets for seamless loop */
+  will-change: transform;
+  /* Smooth hardware-accelerated animation */
+  transform: translateX(0);
+  transition: none; /* Animation handled by JavaScript for precise control */
+  /* Performance optimizations */
+  contain: layout style paint; /* Isolate carousel for better performance */
+  backface-visibility: hidden; /* Prevent flickering */
+  transform-style: preserve-3d; /* Enable hardware acceleration */
+}
+
+/* Individual button set in carousel */
+.social-carousel-set {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(0.75rem, 2vw, 1rem);
+  flex-shrink: 0;
+  /* Ensure buttons maintain their size */
+  /* Performance optimizations */
+  contain: layout style; /* Isolate sets for better rendering */
+  backface-visibility: hidden; /* Prevent flickering */
+}
+
+/* Ensure carousel buttons maintain all original styling */
+.social-carousel-active .social-button {
+  flex-shrink: 0;
+  /* Prevent buttons from shrinking in carousel */
+}
+
+/* Separate button (Khamsat) styling when carousel is active */
+.social-carousel-active .social-button--carousel-separate {
+  margin-left: clamp(1rem, 3vw, 1.5rem);
+  /* Spacing between carousel and separate button */
+}
+
+/* Ensure wrapper accommodates both carousel and separate button */
+.social-carousel-active .social-buttons-wrapper {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  /* Override any existing flex-wrap from base styles */
+}
+
+/* Pause carousel on hover for better UX */
+/* Animation pause handled by JavaScript - no CSS needed */
+
+/* Reduced motion: disable carousel animation */
+@media (prefers-reduced-motion: reduce) {
+  .social-carousel-active .social-carousel-track {
+    animation: none !important;
+    transform: translateX(0) !important;
+  }
+}
+
+/* Carousel fade mask adjustments for different screen sizes */
+@media (max-width: 480px) {
+  .social-carousel-active .social-buttons-wrapper {
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(0, 0, 0, 1) 5%,
+      rgba(0, 0, 0, 1) 95%,
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(0, 0, 0, 1) 5%,
+      rgba(0, 0, 0, 1) 95%,
+      transparent 100%
+    );
+  }
+}
+
+/* ===== Form Elements ===== */
+.form-group {
+  margin-bottom: 1.25rem;
+  text-align: left;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: var(--spacing-xs);
+  font-size: clamp(0.85rem, 2vw, 0.9rem);
+  font-weight: 500;
+  color: var(--text-primary);
+  /* Ensure labels are readable on small screens */
+  line-height: 1.4;
+}
+
+.form-label .required {
+  color: var(--text-error);
+  margin-left: 0.25rem;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: clamp(0.75rem, 2vw, 0.875rem) clamp(0.875rem, 2vw, 1rem);
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  font-size: clamp(16px, 4vw, 1rem); /* Prevent zoom on iOS, fluid scaling */
+  font-family: inherit;
+  transition: all var(--transition-normal), backdrop-filter var(--transition-normal);
+  /* Glass-like input appearance matching container */
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(5px) saturate(150%);
+  -webkit-backdrop-filter: blur(5px) saturate(150%);
+  /* Subtle glass reflection on inputs */
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, transparent 100%);
+  color: var(--text-primary);
+  /* Ensure minimum touch target size */
+  min-height: var(--touch-target-min);
+  /* Better text readability */
+  line-height: 1.5;
+}
+
+  .form-input:focus,
+  .form-textarea:focus {
+    outline: none;
+    border-color: var(--border-focus);
+    box-shadow: 
+      0 0 0 3px rgba(5, 102, 8, 0.15),
+      inset 0 1px 2px rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+    /* Enhanced glass effect on focus - glass refraction */
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(7px) saturate(180%);
+    -webkit-backdrop-filter: blur(7px) saturate(180%);
+    /* Enhanced glass reflection on focus */
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, transparent 100%);
+  }
+
+.form-input:hover:not(:disabled),
+.form-textarea:hover:not(:disabled) {
+  border-color: var(--primary-light);
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.6;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: clamp(100px, 20vh, 120px);
+  max-height: 300px;
+  line-height: 1.5;
+  /* Better mobile experience */
+  padding-top: clamp(0.75rem, 2vw, 0.875rem);
+  padding-bottom: clamp(0.75rem, 2vw, 0.875rem);
+}
+
+/* ===== Validation States ===== */
+.form-input.error,
+.form-textarea.error {
+  border-color: var(--text-error);
+  animation: shake 0.3s ease-in-out;
+}
+
+.form-input.success,
+.form-textarea.success {
+  border-color: var(--text-success);
+}
+
+.error-message {
+  display: block;
+  margin-top: var(--spacing-xs);
+  font-size: clamp(0.8rem, 2vw, 0.85rem);
+  color: var(--text-error);
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: all var(--transition-normal);
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.error-message.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.success-icon {
+  display: none;
+  color: var(--text-success);
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+.field-wrapper {
+  position: relative;
+}
+
+.field-wrapper.success::after {
+  content: '✓';
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-success);
+  font-weight: bold;
+  font-size: 1.1rem;
+  pointer-events: none;
+}
+
+.field-wrapper.success input {
+  padding-right: 2.5rem;
+}
+
+/* ===== Submit Button ===== */
+.submit-button {
+  width: 100%;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: clamp(0.875rem, 2vw, 1rem) clamp(1.25rem, 3vw, 1.5rem);
+  border-radius: var(--border-radius-md);
+  font-size: clamp(0.9375rem, 2.5vw, 1rem);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+  margin-top: var(--spacing-xs);
+  /* Ensure minimum touch target */
+  min-height: var(--touch-target-min);
+  /* Better mobile interaction */
+  -webkit-tap-highlight-color: rgba(5, 102, 8, 0.2);
+  touch-action: manipulation;
+}
+
+.submit-button:hover:not(:disabled) {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.submit-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submit-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(5, 102, 8, 0.3);
+}
+
+.submit-button:disabled {
+  background: var(--primary-light);
+  cursor: not-allowed;
+  transform: none;
+  opacity: 0.8;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ===== Loading Spinner ===== */
+.spinner {
+  display: none;
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+/* Professional multi-ring spinner */
+.spinner::before,
+.spinner::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: white;
+  transform: translate(-50%, -50%);
+  animation: spin 0.8s linear infinite;
+}
+
+.spinner::before {
+  width: 18px;
+  height: 18px;
+  border-width: 2px;
+  opacity: 1;
+}
+
+.spinner::after {
+  width: 12px;
+  height: 12px;
+  border-width: 2px;
+  border-top-color: rgba(255, 255, 255, 0.6);
+  animation: spinReverse 0.6s linear infinite;
+}
+
+.submit-button.loading .spinner {
+  display: block;
+  opacity: 0;
+  animation: fadeInSpinner 0.2s ease-out forwards;
+}
+
+.submit-button.loading .button-text {
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.9);
+  transition: opacity var(--transition-fast), transform var(--transition-fast), visibility 0s var(--transition-fast);
+}
+
+.submit-button.loading {
+  position: relative;
+  pointer-events: none;
+}
+
+/* Loading overlay effect on button */
+.submit-button.loading::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: shimmer 1.5s infinite;
+  z-index: 1;
+}
+
+.button-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  position: relative;
+  width: 100%;
+  min-height: 1em;
+}
+
+.button-text {
+  transition: opacity var(--transition-fast), transform var(--transition-fast), visibility var(--transition-fast);
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== Response Message ===== */
+.response-message {
+  margin-top: var(--spacing-lg);
+  padding: clamp(0.75rem, 2vw, 0.875rem) clamp(0.875rem, 2vw, 1rem);
+  border-radius: var(--border-radius-sm);
+  font-size: clamp(0.875rem, 2.5vw, 0.95rem);
+  font-weight: 500;
+  min-height: clamp(2.5rem, 8vw, 3rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-normal);
+  opacity: 0;
+  transform: translateY(-10px);
+  max-height: 0;
+  overflow: hidden;
+  margin-bottom: 0;
+  text-align: center;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.response-message.show {
+  opacity: 1;
+  transform: translateY(0);
+  max-height: 200px;
+  margin-bottom: 1.25rem;
+}
+
+.response-message.success {
+  background-color: rgba(46, 125, 50, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--text-success);
+  border: 1px solid rgba(46, 125, 50, 0.3);
+}
+
+.response-message.error {
+  background-color: rgba(198, 40, 40, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--text-error);
+  border: 1px solid rgba(198, 40, 40, 0.3);
+}
+
+.response-message.info {
+  background-color: rgba(144, 202, 249, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--text-primary);
+  border: 1px solid rgba(144, 202, 249, 0.3);
+}
+
+.response-icon {
+  margin-right: 0.5rem;
+  font-size: 1.1rem;
+}
+
+/* ===== Animations ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  75% { transform: translateX(10px); }
+}
+
+@keyframes spin {
+  to { 
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes spinReverse {
+  to { 
+    transform: translate(-50%, -50%) rotate(-360deg);
+  }
+}
+
+@keyframes expandLine {
+  from {
+    width: 0;
+    opacity: 0;
+  }
+  to {
+    width: 60px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInText {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes fadeInSpinner {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Realistic glass animations */
+@keyframes glassShimmer {
+  0%, 100% {
+    backdrop-filter: blur(var(--glass-blur-mobile)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur-mobile)) saturate(180%);
+  }
+  50% {
+    backdrop-filter: blur(calc(var(--glass-blur-mobile) + 2px)) saturate(200%);
+    -webkit-backdrop-filter: blur(calc(var(--glass-blur-mobile) + 2px)) saturate(200%);
+  }
+}
+
+@media (min-width: 425px) {
+  @keyframes glassShimmer {
+    0%, 100% {
+      backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+      -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    }
+    50% {
+      backdrop-filter: blur(calc(var(--glass-blur) + 2px)) saturate(200%);
+      -webkit-backdrop-filter: blur(calc(var(--glass-blur) + 2px)) saturate(200%);
+    }
+  }
+}
+
+@keyframes glassReflection {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(-30%, -30%) rotate(45deg);
+    opacity: 0.2;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(90deg);
+    opacity: 0;
+  }
+}
+
+/* ===== Responsive Design - Mobile First ===== */
+
+/* Extra Small Devices (phones, < 360px) */
+@media (max-width: 359px) {
+  body {
+    padding: var(--spacing-sm);
+  }
+
+  .form-container {
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-md);
+    max-width: calc(100% - var(--spacing-sm) * 2);
+  }
+
+  h2 {
+    font-size: clamp(1rem, 4vw, 1.1rem);
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-sm);
+  }
+
+  h2::after {
+    width: 50px;
+    height: 2px;
+  }
+
+  .form-group {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .form-label {
+    font-size: 0.85rem;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .form-input,
+  .form-textarea {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 16px; /* Prevent iOS zoom */
+  }
+
+  .submit-button {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: 0.9375rem;
+  }
+
+  .response-message {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 0.875rem;
+  }
+}
+
+/* Small Devices (phones, 360px - 480px) */
+@media (min-width: 360px) and (max-width: 480px) {
+  body {
+    padding: var(--spacing-md);
+  }
+
+  .form-container {
+    padding: var(--spacing-xl);
+    border-radius: var(--border-radius-md);
+  }
+
+  h2 {
+    font-size: clamp(1.1rem, 3vw, 1.2rem);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .form-input,
+  .form-textarea {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 16px; /* Prevent iOS zoom */
+  }
+
+  .submit-button {
+    padding: var(--spacing-md) var(--spacing-xl);
+  }
+}
+
+/* Medium Devices (tablets portrait, 481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  body {
+    padding: var(--spacing-lg);
+  }
+
+  .form-container {
+    padding: var(--spacing-2xl);
+    max-width: 500px;
+    border-radius: var(--border-radius-lg);
+  }
+
+  h2 {
+    font-size: clamp(1.2rem, 2.5vw, 1.3rem);
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .form-group {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .form-input,
+  .form-textarea {
+    padding: 1rem 1.125rem;
+    font-size: 1rem;
+  }
+
+  .submit-button {
+    padding: 1rem 1.75rem;
+    font-size: 1.0625rem;
+  }
+}
+
+/* Large Devices (tablets landscape, 769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  body {
+    padding: var(--spacing-xl);
+  }
+
+  .form-container {
+    padding: var(--spacing-2xl);
+    max-width: 520px;
+  }
+
+  h2 {
+    font-size: clamp(1.3rem, 2vw, 1.4rem);
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .form-group {
+    margin-bottom: var(--spacing-xl);
+  }
+}
+
+/* Extra Large Devices (desktops, > 1024px) */
+@media (min-width: 1025px) {
+  body {
+    padding: var(--spacing-xl);
+  }
+
+  .form-container {
+    padding: var(--spacing-2xl);
+    max-width: 550px;
+    box-shadow: var(--shadow-lg);
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  .form-group {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .form-input,
+  .form-textarea {
+    padding: 1rem 1.25rem;
+  }
+
+  .submit-button {
+    padding: 1rem 2rem;
+  }
+}
+
+/* Landscape Orientation (mobile/tablet landscape) */
+@media (orientation: landscape) and (max-height: 600px) {
+  body {
+    padding: var(--spacing-sm) var(--spacing-md);
+    align-items: flex-start;
+    min-height: auto;
+    padding-top: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
+  }
+
+  .form-container {
+    padding: var(--spacing-lg) var(--spacing-xl);
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    max-width: 600px;
+  }
+
+  h2 {
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-xs);
+  }
+
+  h2::after {
+    width: 50px;
+  }
+
+  .form-group {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .form-textarea {
+    min-height: 80px;
+  }
+}
+
+/* High DPI / Retina Displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .form-container {
+    /* Enhanced glass shadow for high DPI displays */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+}
+
+/* Very Wide Screens (> 1440px) */
+@media (min-width: 1441px) {
+  .form-container {
+    max-width: 600px;
+    padding: 3rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.75rem;
+  }
+}
+
+/* ===== Accessibility ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  /* Disable glass animations for reduced motion */
+  .form-container {
+    animation: fadeInUp 0.5s ease-out !important;
+  }
+  
+  .form-container::after {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+}
+
+/* ===== High Contrast Mode Support ===== */
+@media (prefers-contrast: high) {
+  :root {
+    --border-color: #000;
+    --border-focus: #000;
+  }
+
+  .form-input,
+  .form-textarea {
+    border-width: 3px;
+  }
+}
+
+/* ===== Print Styles ===== */
+@media print {
+  body {
+    background: white;
+  }
+
+  .form-container {
+    background: white;
+    box-shadow: none;
+    border: 1px solid #ccc;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .submit-button {
+    display: none;
+  }
+}
+
